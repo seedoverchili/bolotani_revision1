@@ -3,6 +3,7 @@
 use App\Http\Controllers\Penjual\AuthController;
 use App\Http\Controllers\Penjual\DashboardController;
 use App\Http\Controllers\Penjual\PhotoController;
+use App\Http\Controllers\Penjual\ProductController;
 use App\Http\Middleware\EnsureRole;
 use Illuminate\Support\Facades\Route;
 
@@ -27,9 +28,8 @@ Route::middleware(['auth', EnsureRole::class.':penjual'])->prefix('penjual')->na
     Route::get('/foto', [PhotoController::class, 'edit'])->name('foto');
     Route::put('/foto', [PhotoController::class, 'update'])->name('foto.update');
 
-    // SEMENTARA (Tahap 3): penanda agar dashboard tidak error. Diganti ProductController di Tahap 4.
-    Route::get('/produk/tambah', fn () => abort(501, 'Belum tersedia (Tahap 4).'))->name('produk.create');
-    Route::post('/produk', fn () => abort(501, 'Belum tersedia (Tahap 4).'))->name('produk.store');
-    Route::patch('/produk/{product}/stok', fn () => abort(501, 'Belum tersedia (Tahap 4).'))->name('produk.stok');
-    Route::delete('/produk/{product}', fn () => abort(501, 'Belum tersedia (Tahap 4).'))->name('produk.destroy');
-});`
+    Route::get('/produk/tambah', [ProductController::class, 'create'])->name('produk.create');
+    Route::post('/produk', [ProductController::class, 'store'])->name('produk.store');
+    Route::patch('/produk/{product}/stok', [ProductController::class, 'toggleStock'])->name('produk.stok');
+    Route::delete('/produk/{product}', [ProductController::class, 'destroy'])->name('produk.destroy');
+});
