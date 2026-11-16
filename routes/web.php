@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+// Modul pedagang
+require __DIR__.'/penjual.php';
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// SEMENTARA: placeholder modul pembeli. Hapus baris ini saat digabung.
+require __DIR__.'/placeholder-pembeli.php';
