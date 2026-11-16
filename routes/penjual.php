@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Penjual\AuthController;
 use App\Http\Controllers\Penjual\DashboardController;
+use App\Http\Controllers\Penjual\PasswordOtpController;
 use App\Http\Controllers\Penjual\PhotoController;
 use App\Http\Controllers\Penjual\ProductController;
 use App\Http\Middleware\EnsureRole;
@@ -14,9 +15,11 @@ Route::middleware('guest')->group(function () {
     Route::get('/daftar', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/daftar', [AuthController::class, 'register'])->middleware('throttle:register')->name('register.store');
 
-    // SEMENTARA (Tahap 2): diganti PasswordOtpController di Tahap 5.
-    Route::get('/lupa-sandi', fn () => view('auth.forgot'))->name('password.request');
-    Route::post('/lupa-sandi', fn () => abort(501, 'Belum tersedia (Tahap 5).'))->name('password.email');
+    // Lupa sandi via OTP email
+    Route::get('/lupa-sandi', [PasswordOtpController::class, 'request'])->name('password.request');
+    Route::post('/lupa-sandi', [PasswordOtpController::class, 'send'])->middleware('throttle:otp-send')->name('password.email');
+    Route::get('/lupa-sandi/kode', [PasswordOtpController::class, 'form'])->name('password.otp');
+    Route::post('/lupa-sandi/kode', [PasswordOtpController::class, 'verify'])->middleware('throttle:otp-verify')->name('password.otp.verify');
 });
 
 Route::post('/keluar', [AuthController::class, 'logout'])->middleware('auth')->name('logout');

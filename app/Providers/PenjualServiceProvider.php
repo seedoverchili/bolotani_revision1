@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 
-/** Rate limiter modul pedagang (otp-send dan otp-verify ditambahkan di Tahap 5). */
+/** Rate limiter modul pedagang. */
 class PenjualServiceProvider extends ServiceProvider
 {
     public function boot(): void
@@ -17,5 +17,15 @@ class PenjualServiceProvider extends ServiceProvider
 
         RateLimiter::for('register', fn (Request $r) => Limit::perMinute(10)
             ->by('register|'.$r->ip()));
+
+        // Kirim kode: dibatasi per IP, dan per email agar satu alamat tidak dibanjiri email.
+        RateLimiter::for('otp-send', fn (Request $r) => [
+            Limit::perMinute(6)->by('otp-send|'.$r->ip()),
+            Limit::perMinutes(10, 5)->by('otp-send-email|'.strtolower(trim((string) $r->input('email')))),
+        ]);
+
+        // Verifikasi kode: dibatasi per IP (batas 5 salah per kode ada di OtpService).
+        RateLimiter::for('otp-verify', fn (Request $r) => Limit::perMinute(10)
+            ->by('otp-verify|'.$r->ip()));
     }
 }
