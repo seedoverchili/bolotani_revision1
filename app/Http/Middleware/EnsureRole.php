@@ -8,13 +8,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class EnsureRole
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  Closure(Request): (Response)  $next
-     */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next, string $role): Response
     {
+        $user = $request->user();
+
+        if (! $user) {
+            return redirect()->route($role === 'admin' ? 'admin.login' : 'login');
+        }
+
+        abort_unless($user->role === $role, 403);
+
         return $next($request);
     }
 }
