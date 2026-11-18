@@ -133,5 +133,6 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route($admin ? 'admin.login' : 'login');
+        // 8.3 — Bagian 8 · Keluar admin — Akhiri sesi dan kembali ke login. Fungsi: Logout bersama menutup sesi, memperbarui token CSRF, lalu mengembalikan admin ke formulir masuk admin.
     }
 }

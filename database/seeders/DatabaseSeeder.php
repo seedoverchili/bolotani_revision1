@@ -14,7 +14,11 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Akun per role (email/nama/password = nama role)
-        User::updateOrCreate(['email' => 'admin@gmail.com'], ['name' => 'admin', 'password' => 'admin', 'role' => 'admin', 'email_verified_at' => now()]);
+        User::firstOrCreate(
+            ['email' => 'mohridwanramadan@gmail.com', 'role' => 'admin'],
+            ['name' => 'admin', 'password' => 'admin', 'email_verified_at' => now()]
+        );
+        // 2.16 — Bagian 2 · Masuk admin — Buat akun admin demo. Fungsi: Menyiapkan email login utama pada database baru dan mempertahankan sandi jika akun admin sudah ada.
         User::updateOrCreate(
             ['email' => 'budi.santoso@bolotani.banyuwangikab.go.id'],
             ['name' => 'Budi Santoso', 'password' => 'admin', 'role' => 'admin', 'email_verified_at' => now()]

@@ -100,6 +100,7 @@
                                 <b>{{ $product->name }}</b>
                                 <small>SKU: {{ $product->sku }}</small>
                                 @unless ($product->isApproved())<em style="color:#b45309;font-style:normal;font-weight:700">Menunggu persetujuan admin</em>@endunless
+                                {{-- // 1.6 — Bagian 1 · Persetujuan produk — Tampilkan status pada dashboard pedagang. Fungsi: Saat pedagang membuka dashboard, produk yang masih pending diberi label Menunggu persetujuan admin. --}}
                                 @if ($product->images->count() > 1)<em>{{ $product->images->count() }} Foto</em>@endif
                             </span>
                         </div>
