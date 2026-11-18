@@ -17,6 +17,7 @@ class EnsureRole
         }
 
         abort_unless($user->role === $role, 403);
+        // 2.15 — Bagian 2 · Masuk admin — Batasi halaman berdasarkan peran. Fungsi: Membandingkan peran akun dengan syarat rute. Penjual yang membuka panel admin menerima HTTP 403.
 
         return $next($request);
     }

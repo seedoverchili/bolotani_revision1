@@ -27,5 +27,7 @@ class AppServiceProvider extends ServiceProvider
         RateLimiter::for('register', fn (Request $r) => Limit::perMinute(10)->by('register|'.$r->ip()));
         RateLimiter::for('otp-send', fn (Request $r) => Limit::perMinute(6)->by('otp-send|'.$r->ip()));
         RateLimiter::for('otp-verify', fn (Request $r) => Limit::perMinute(10)->by('otp-verify|'.$r->ip()));
+        RateLimiter::for('admin-reset', fn (Request $r) => Limit::perMinute(6)->by('admin-reset|'.$r->ip()));
+        // 7.4 — Bagian 7 · Pemulihan sandi — Batasi frekuensi permintaan. Fungsi: Membatasi permintaan pemulihan admin menjadi enam per menit per alamat IP.
     }
 }

@@ -95,6 +95,7 @@
         <div class="foot-act">
             <a class="d-btn o" href="{{ route('penjual.dashboard') }}#katalog">Kembali ke Katalog</a>
             <button type="submit" class="d-btn" data-confirm="Produk akan dikirim ke admin dan tayang di marketplace setelah disetujui." data-confirm-title="Kirim produk?" data-confirm-ok="Ya, Kirim" data-confirm-tone="ok"><x-icon name="check" :size="13" :stroke="2.6" />Simpan &amp; Ajukan Produk</button>
+            {{-- // 1.1 — Bagian 1 · Persetujuan produk — Ajukan produk dari formulir. Fungsi: Pedagang menekan Simpan & Ajukan Produk dan mengonfirmasi pengiriman data serta foto. --}}
         </div>
     </form>
 

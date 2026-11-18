@@ -17,6 +17,10 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
     <link rel="stylesheet" href="{{ asset('css/dash.css') }}">
+    @if ($isAdmin)
+        <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+    @endif
+    {{-- // 3.2 — Bagian 3 · Dashboard — Muat CSS admin. Fungsi: Memuat penataan layar sempit khusus admin ketika komponen digunakan untuk panel admin. --}}
 </head>
 <body class="dash">
 <div class="d-shell">
@@ -36,6 +40,7 @@
                 <span class="av"><x-icon name="user" :size="15" /></span>
                 <span><b>{{ $user->name }}</b><small>Super Admin</small></span>
                 <form method="POST" action="{{ route('logout') }}" data-confirm="Anda akan keluar dari akun ini." data-confirm-title="Keluar?" data-confirm-ok="Ya, Keluar" data-confirm-tone="danger">@csrf<button type="submit" title="Keluar"><x-icon name="log-out" :size="16" /></button></form>
+                {{-- // 8.1 — Bagian 8 · Keluar admin — Tekan tombol Keluar. Fungsi: Menu membuka dasbor admin dan tombol Keluar mengirim POST ke rute logout bersama. --}}
             </div>
         @else
             <nav class="d-nav">
@@ -56,7 +61,16 @@
 
     <main class="d-main">
         <div class="d-top">
-            <div class="d-search"><x-icon name="search" :size="14" /><input type="search" placeholder="{{ $isAdmin ? 'Cari data tenant, produk, audit...' : $search }}" aria-label="Cari" data-filter-input></div>
+            @if ($isAdmin)
+                <form class="d-search" method="GET" action="{{ route('admin.dashboard') }}">
+                    <x-icon name="search" :size="14" />
+                    <input type="search" name="q" value="{{ is_string(request('q')) ? request('q') : '' }}" maxlength="120" placeholder="Nama lapak, kode, atau kecamatan" aria-label="Cari lapak">
+                    <button type="submit" class="ab o">Cari</button>
+                </form>
+                {{-- // 3.5 — Bagian 3 · Dashboard — Kirim kata kunci pencarian. Fungsi: Mencari lapak melalui dashboard, termasuk data di halaman lain. Enter atau tombol Cari mengirim kata kunci. --}}
+            @else
+                <div class="d-search"><x-icon name="search" :size="14" /><input type="search" placeholder="{{ $search }}" aria-label="Cari" data-filter-input></div>
+            @endif
             @if ($isAdmin)
                 <div class="d-tools"><span class="d-bell"><x-icon name="bell" :size="14" /></span><span class="d-avatar"><x-icon name="user" :size="14" /></span></div>
             @endif

@@ -56,6 +56,7 @@ class ProductController extends Controller
             'unit.regex' => 'Satuan hanya boleh berisi huruf, angka, dan tanda baca sederhana.',
             'description.required' => 'Deskripsi komoditas wajib diisi.',
         ]);
+        // 1.3 — Bagian 1 · Persetujuan produk — Validasi data dan foto. Fungsi: Memeriksa kategori, nama, harga, satuan, deskripsi, dan satu hingga lima foto sebelum menyimpan.
 
         DB::transaction(function () use ($data, $request, $tenant) {
             $count = $tenant->products()->count() + 1;
@@ -73,6 +74,7 @@ class ProductController extends Controller
                 'unit' => Str::lower(trim($data['unit'])),
                 'stock' => 100,
                 'status' => 'pending',
+                // 1.4 — Bagian 1 · Persetujuan produk — Simpan produk dengan status pending. Fungsi: Menetapkan status awal produk ke pending saat menyimpannya untuk lapak pedagang.
                 'description' => self::cleanHtml($data['description']),
             ]);
 
@@ -87,6 +89,7 @@ class ProductController extends Controller
         });
 
         return redirect()->route('penjual.produk.create')->with('saved', true);
+        // 1.5 — Bagian 1 · Persetujuan produk — Konfirmasikan pengajuan. Fungsi: Setelah produk dan foto tersimpan, pedagang kembali ke formulir dengan pesan pengajuan berhasil.
     }
 
     public function toggleStock(Request $request, Product $product)
