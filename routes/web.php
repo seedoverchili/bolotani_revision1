@@ -5,6 +5,7 @@ use App\Http\Controllers\PasswordOtpController;
 use App\Http\Controllers\Penjual\DashboardController as PenjualDashboardController;
 use App\Http\Controllers\Penjual\PhotoController;
 use App\Http\Controllers\Penjual\ProductController;
+ pembeli
 use App\Http\Controllers\WhatsAppController;
 use App\Http\Middleware\EnsureRole;
 use App\Livewire\Marketplace;
@@ -19,6 +20,13 @@ Route::get('/pedagang/{tenant:slug}', TenantProfile::class)->name('pedagang.show
 
 Route::get('/wa/produk/{product}', [WhatsAppController::class, 'product'])->name('wa.redirect');
 Route::get('/wa/pedagang/{tenant}', [WhatsAppController::class, 'tenant'])->name('wa.tenant');
+=======
+use App\Http\Middleware\EnsureRole;
+use Illuminate\Support\Facades\Route;
+
+Route::get('/', fn () => 'Fondasi Bolo Tani siap.')->name('marketplace');
+Route::get('/pedagang/{tenant:slug}', fn () => 'Etalase publik tersedia pada tahap pembeli.')->name('pedagang.show');
+ main
 
 // ---------- Auth dan dashboard penjual ----------
 Route::middleware('guest')->group(function () {
